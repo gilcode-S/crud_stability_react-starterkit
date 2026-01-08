@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +15,7 @@ class TaskController extends Controller
     public function index()
     {
         return Inertia::render('Task/Index', [
-            'task' => Task::all(),
+            'tasks' => Task::all(),
         ]);
     }
 
@@ -26,7 +28,7 @@ class TaskController extends Controller
     {
         Task::create($request->validated());
 
-        return redirect()->route(route: 'task.index');
+        return redirect()->route(route: 'tasks.index');
     }
 
     public function edit(Task $task)
@@ -35,16 +37,16 @@ class TaskController extends Controller
             'task' => $task
         ]);
     }
-    public function update(UpateTaskRequest $request, Task $task) 
+    public function update(UpdateTaskRequest $request, Task $task)
     {
         $task->update($request->validated());
 
-        return redirect()->route(route: 'task.index');
+        return redirect()->route(route: 'tasks.index');
     }
 
-    public function destroy(Task $task) 
+    public function destroy(Task $task)
     {
         $task->delete();
-        return redirect()->route(route: 'task.index');
+        return redirect()->route(route: 'tasks.index');
     }
 }
